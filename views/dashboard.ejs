@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TinyLink – Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="header">
+  <h1>TinyLink</h1>
+  <nav>
+    <a href="/">Dashboard</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section>
+    <h2>Dashboard</h2>
+
+    <form class="search-form" method="get" action="/">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search by code or URL..."
+        value="<%= search || '' %>"
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <form id="create-form" class="card">
+      <h3>Create a short link</h3>
+      <label>
+        Target URL
+        <input type="url" name="url" required placeholder="https://example.com/page" />
+      </label>
+
+      <label>
+        Custom code (optional, 6–8 letters/numbers)
+        <input type="text" name="code" minlength="6" maxlength="8" pattern="[A-Za-z0-9]{6,8}" />
+      </label>
+
+      <button type="submit">Shorten</button>
+      <p class="form-message" id="create-message"></p>
+    </form>
+
+    <section class="card">
+      <h3>Your links</h3>
+
+      <% if (!links || links.length === 0) { %>
+        <p>No links yet. Create your first one above.</p>
+      <% } else { %>
+        <table class="links-table">
+          <thead>
+            <tr>
+              <th>Short Code</th>
+              <th>Target URL</th>
+              <th>Total Clicks</th>
+              <th>Last Clicked</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% links.forEach(link => { %>
+              <tr>
+                <td>
+                  <a href="/code/<%= link.code %>"><%= link.code %></a><br />
+                  <small><%= baseUrl %>/<%= link.code %></small>
+                </td>
+                <td class="truncate" title="<%= link.target_url %>">
+                  <%= link.target_url %>
+                </td>
+                <td><%= link.total_clicks %></td>
+                <td>
+                  <%= link.last_clicked ? link.last_clicked.toISOString() : 'Never' %>
+                </td>
+                <td>
+                  <button
+                    class="copy-btn"
+                    type="button"
+                    data-url="<%= baseUrl %>/<%= link.code %>">
+                    Copy
+                  </button>
+                  <button
+                    class="delete-btn"
+                    type="button"
+                    data-code="<%= link.code %>">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+  </section>
+</main>
+
+<footer class="footer">
+  <small>TinyLink · Simple URL shortener</small>
+</footer>
+
+<script src="/main.js"></script>
+</body>
+</html>

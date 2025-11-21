@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TinyLink – Stats for <%= link.code %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="header">
+  <h1>TinyLink</h1>
+  <nav>
+    <a href="/">Dashboard</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Stats for <code><%= link.code %></code></h2>
+
+    <p>
+      <strong>Short URL:</strong>
+      <a href="/<%= link.code %>"><%= baseUrl %>/<%= link.code %></a>
+    </p>
+
+    <p>
+      <strong>Target URL:</strong>
+      <a href="<%= link.target_url %>" target="_blank" rel="noopener noreferrer">
+        <%= link.target_url %>
+      </a>
+    </p>
+
+    <p><strong>Total clicks:</strong> <%= link.total_clicks %></p>
+    <p>
+      <strong>Last clicked:</strong>
+      <%= link.last_clicked ? link.last_clicked.toISOString() : 'Never' %>
+    </p>
+    <p><strong>Created at:</strong> <%= link.created_at.toISOString() %></p>
+
+    <p><a href="/">← Back to dashboard</a></p>
+  </section>
+</main>
+
+<footer class="footer">
+  <small>TinyLink · Simple URL shortener</small>
+</footer>
+</body>
+</html>
